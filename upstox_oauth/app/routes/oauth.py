@@ -7,7 +7,7 @@ from app.config import (
     UPSTOX_REDIRECT_URI,
 )
 from app.services import exchange_code_for_token
-
+from app.token_storage import save_token
 
 router = APIRouter()
 
@@ -32,5 +32,7 @@ def oauth_callback(
 ):
 
     token_response = exchange_code_for_token(code)
+
+    save_token(token_response)
 
     return token_response
