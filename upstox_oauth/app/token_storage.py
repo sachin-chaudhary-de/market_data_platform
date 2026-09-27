@@ -1,17 +1,28 @@
 import json
-from pathlib import Path
+
+import boto3
+
+from app.config import UPSTOX_TOKEN_SECRET_NAME
 
 
-TOKEN_FILE = Path("storage/token.json")
+client = boto3.client(
+    "secretsmanager",
+    region_name="ap-south-1",
+)
 
 
 def save_token(token_response: dict) -> None:
-    TOKEN_FILE.write_text(
-        json.dumps(token_response, indent=2)
+
+    client.put_secret_value(
+        SecretId=UPSTOX_TOKEN_SECRET_NAME,
+        SecretString=json.dumps(token_response),
     )
 
 
 def load_token() -> dict:
-    return json.loads(
-        TOKEN_FILE.read_text()
+
+    response = client.get_secret_value(
+        SecretId=UPSTOX_TOKEN_SECRET_NAME,
     )
+
+    return json.loads(response["SecretString"])

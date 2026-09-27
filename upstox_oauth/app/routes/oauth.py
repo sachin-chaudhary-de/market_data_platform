@@ -1,12 +1,6 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse
-
-
-from app.config import (
-    UPSTOX_AUTH_URL,
-    UPSTOX_CLIENT_ID,
-    UPSTOX_REDIRECT_URI,
-)
+from app.config import (UPSTOX_AUTH_URL, UPSTOX_REDIRECT_URI)
 from app.services import exchange_code_for_token
 from app.token_storage import save_token
 from app.secrets import get_upstox_credentials

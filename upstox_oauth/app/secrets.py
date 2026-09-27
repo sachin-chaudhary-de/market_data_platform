@@ -19,6 +19,6 @@ def get_upstox_credentials() -> dict:
     secret = json.loads(response["SecretString"])
 
     return {
-        "client_id": secret["client_id"],
-        "client_secret": secret["client_secret"],
-    }
+    "client_id": secret["UPSTOX_CLIENT_ID"],
+    "client_secret": secret["UPSTOX_CLIENT_SECRET"],
+}
