@@ -9,6 +9,8 @@ UPSTOX_REDIRECT_URI = os.getenv("UPSTOX_REDIRECT_URI")
 AWS_SECRET_NAME = os.getenv("AWS_SECRET_NAME")
 UPSTOX_TOKEN_SECRET_NAME = os.getenv("UPSTOX_TOKEN_SECRET_NAME")
 
+S3_BUCKET = os.getenv("S3_BUCKET", "upstox-raw-master-data")
+INSTRUMENTS_S3_KEY = "master_data/instruments/complete.json"
 
 UPSTOX_AUTH_URL = (
     "https://api.upstox.com/v2/login/authorization/dialog"
