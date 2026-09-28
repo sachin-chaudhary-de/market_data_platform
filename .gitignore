@@ -1,0 +1,4 @@
+.env
+.venv/
+.upstox_venv/
+__pycache__/

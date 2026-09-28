@@ -1,4 +1,0 @@
-.env
-.upstox_venv/
-__pycache__/
-storage/token.json
