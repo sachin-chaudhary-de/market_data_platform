@@ -11,7 +11,10 @@ INSTRUMENT_URL = (
 
 def download_instruments():
 
-    response = requests.get(INSTRUMENT_URL)
+    response = requests.get(
+                            INSTRUMENT_URL,
+                            timeout=30,
+                            )
 
     response.raise_for_status()
 
