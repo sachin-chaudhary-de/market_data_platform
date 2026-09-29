@@ -26,7 +26,8 @@ def create_session():
     return session
 
 
-def fetch_historical_data(instrument_key: str,
+def fetch_historical_data(session,
+                        instrument_key: str,
                            unit: str,
                             interval: str,
                              to_date: str,
@@ -46,7 +47,6 @@ def fetch_historical_data(instrument_key: str,
                 "Authorization": f"Bearer {access_token}",
                 }
     
-    session = create_session()
 
     response = session.get(
         url,
@@ -108,6 +108,7 @@ def extract_historical_data(
 
     historical_data = {}
 
+    session = create_session()
     for instrument_key in instrument_keys:
 
         historical_data[instrument_key] = []
@@ -115,6 +116,7 @@ def extract_historical_data(
         for from_date, to_date in date_ranges:
 
             response = fetch_historical_data(
+                session = session,
                 instrument_key=instrument_key,
                 unit=unit,
                 interval=interval,
