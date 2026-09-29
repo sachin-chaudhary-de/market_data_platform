@@ -1,7 +1,29 @@
 import requests
 from datetime import date, timedelta
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 HISTORICAL_URL = "https://api.upstox.com/v3/historical-candle"
+
+
+def create_session():
+
+    retry = Retry(
+        total=3,
+        backoff_factor=1,
+        status_forcelist=[429, 500, 502, 503, 504],
+        allowed_methods=["GET"],
+        respect_retry_after_header=True,
+    )
+
+    session = requests.Session()
+
+    session.mount(
+        "https://",
+        HTTPAdapter(max_retries=retry),
+    )
+
+    return session
 
 
 def fetch_historical_data(instrument_key: str,
@@ -23,8 +45,10 @@ def fetch_historical_data(instrument_key: str,
     headers = {"Accept": "application/json",
                 "Authorization": f"Bearer {access_token}",
                 }
+    
+    session = create_session()
 
-    response = requests.get(
+    response = session.get(
         url,
         headers=headers,
         timeout=30,
