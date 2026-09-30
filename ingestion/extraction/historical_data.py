@@ -99,34 +99,34 @@ def extract_historical_data(
     unit: str,
     interval: str,
     access_token: str,
-    ):
+):
 
     date_ranges = generate_month_ranges(
         start_date,
         end_date,
-        )
-
-    historical_data = {}
+    )
 
     session = create_session()
-    for instrument_key in instrument_keys:
 
-        historical_data[instrument_key] = []
+    for instrument_key in instrument_keys:
 
         for from_date, to_date in date_ranges:
 
             response = fetch_historical_data(
-                session = session,
+                session=session,
                 instrument_key=instrument_key,
                 unit=unit,
                 interval=interval,
                 to_date=to_date,
                 from_date=from_date,
                 access_token=access_token,
-                )
+            )
 
             candles = response["data"]["candles"]
 
-            historical_data[instrument_key].extend(candles)
-
-    return historical_data
+            yield {
+                "instrument_key": instrument_key,
+                "from_date": from_date,
+                "to_date": to_date,
+                "candles": candles,
+            }

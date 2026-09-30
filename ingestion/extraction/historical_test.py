@@ -49,27 +49,28 @@ print(
 access_token = get_access_token()
 
 
-historical_data = extract_historical_data(
+batches = extract_historical_data(
     instrument_keys=instrument_keys,
-    start_date="2025-01-01",
-    end_date="2025-01-31",
+    start_date="2026-04-01",
+    end_date="2026-04-30",
     unit="minutes",
     interval="15",
     access_token=access_token,
 )
 
+batch_count = 0
 
-print(
-    "Extracted instruments:",
-    len(historical_data),
-)
+for batch in batches:
 
-
-for instrument_key, candles in historical_data.items():
+    batch_count += 1
 
     print(
-        instrument_key,
+        batch["instrument_key"],
+        batch["from_date"],
         "→",
-        len(candles),
-        "candles",
+        batch["to_date"],
+        "candles:",
+        len(batch["candles"]),
     )
+
+print("Total batches:", batch_count)
